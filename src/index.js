@@ -10,7 +10,37 @@ const colors = [
 ];
 
 const refs = {
-    body: document.querySelector('body'),
+  body: document.querySelector('body'),
+  start: document.querySelector('button[data-action="start"]'),
+  stop: document.querySelector('button[data-action="stop"]')
+}
+let inervalId = '';
+refs.stop.disabled = true;
+
+const randomIntegerFromInterval = (min, max) => {
+  return Math.floor(Math.random()*(max - min + 1)+min);
+};
+
+refs.start.addEventListener('click', onStartChangeColor);
+refs.stop.addEventListener('click', onStopChangeColor);
+
+function turnOnColor() {
+  refs.body.style.backgroundColor = colors[randomIntegerFromInterval(0, colors.length-1)];
 }
 
-console.log(refs.body);
+function onStartChangeColor() {
+  inervalId = setInterval(turnOnColor, 1000);
+  refs.start.disabled = true;
+  refs.stop.disabled = false;
+}
+
+
+function onStopChangeColor() {
+  clearInterval(inervalId);
+  refs.start.disabled = false;
+  refs.stop.disabled = true;
+
+}
+
+
+
